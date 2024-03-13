@@ -1,8 +1,12 @@
 #include <iostream>
 #include <SDL.h>
+#include <vector>
 #include "headers/sprite.h"
+#include "headers/player.h"
+#include "headers/fruit.h"
 
 using std::cout;
+using std::vector;
 
 int main(int argc, char* argv[])
 {
@@ -26,10 +30,20 @@ int main(int argc, char* argv[])
   }
 
   Uint32 red = SDL_MapRGB(SDL_GetWindowSurface(window)->format, 255, 0, 0);
+  Uint32 white = SDL_MapRGB(SDL_GetWindowSurface(window)->format, 255, 255, 255);
+
   SDL_Surface* windowSurface = SDL_GetWindowSurface(window);
 
-  Sprite sprite(red, 100, 100, 100, 240);
-  sprite.draw(windowSurface);
+  vector<Fruit> fruits;
+  for (int i = 0; i < 10; i++)
+  {
+    int x = rand() % 640;
+    int y = rand() % 480;
+    Fruit fruit(x, y);
+    fruits.push_back(fruit);
+  }
+
+  Player player;
 
   // keeep window open
   SDL_Event event;
@@ -40,10 +54,38 @@ int main(int argc, char* argv[])
   while(running)
   {
     frameStart = SDL_GetTicks();
-    SDL_UpdateWindowSurface(window);
 
-    if (SDL_PollEvent(&event) && event.type == SDL_QUIT)
-      running = false;
+    // handle events and input
+    while (SDL_PollEvent(&event))
+    {
+      switch (event.type)
+      {
+        case SDL_QUIT:
+          running = false;
+          break;
+        case SDL_KEYDOWN:
+          switch (event.key.keysym.sym)
+          {
+            case SDLK_RIGHT:
+              player.walkRight();
+              break;
+            case SDLK_LEFT:
+              player.walkLeft();
+              break;
+          }
+          break;
+      }
+    }
+
+    // draw
+    SDL_FillRect(windowSurface, NULL, 0x000000);
+    player.draw(windowSurface);
+    for( auto fruit : fruits)
+    {
+      fruit.fall();
+      fruit.draw(windowSurface);
+    }
+    SDL_UpdateWindowSurface(window);
 
     // Limit frame rate
     int frameDuration = SDL_GetTicks() - frameStart;

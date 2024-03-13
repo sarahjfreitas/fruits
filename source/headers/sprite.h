@@ -1,14 +1,22 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_Image.h>
+#include <string>
+
+using std::string;
 
 class Sprite {
   private:
-    SDL_Surface *image;
+    SDL_Surface *surface;
     SDL_Rect rect;
-    int width, height;
+    int x, y;
+
+  protected:
+    void setImage(string filename);
+    void move(int x, int y);
 
   public:
-    Sprite(Uint32 color, int w = 48, int h = 64, int x = 0, int y = 0);
-    void update() { }; // to be overwritten
+    Sprite(int x = 0, int y = 0);
+    void update();
     void draw(SDL_Surface *destination);
 };
