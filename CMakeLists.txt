@@ -12,6 +12,7 @@ include_directories(${SDL2_IMAGE_INCLUDE_DIRS})
 
 add_executable(Fruits
   source/main.cpp
+  source/game.cpp
   source/sprite.cpp
   source/player.cpp
   source/fruit.cpp

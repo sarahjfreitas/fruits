@@ -10,8 +10,16 @@ using std::endl;
 Sprite::Sprite(int x, int y) : x(x), y(y)
 {
   surface = SDL_CreateRGBSurface(0, 10, 10, 32, 0, 0, 0, 0);
+  if(surface == NULL) throw std::runtime_error(SDL_GetError());
+
   SDL_FillRect(surface, NULL, 0x000000);
   update();
+}
+
+/// @brief Destructor
+Sprite::~Sprite()
+{
+  SDL_FreeSurface(surface);
 }
 
 /// @brief Draw the sprite
@@ -28,19 +36,7 @@ void Sprite::draw(SDL_Surface *destination)
 void Sprite::setImage(string filename)
 {
   surface = IMG_Load(filename.c_str());
-
-  if(surface == NULL)
-  {
-    cout << "Error loading image: " << filename << std::endl;
-    exit(1);
-  }
-
-  SDL_Surface* loadedImage = IMG_Load(filename.c_str());
-  SDL_PixelFormat* format = loadedImage->format;
-  SDL_SoftStretch(surface, NULL, loadedImage, NULL);
-
-  surface  = loadedImage;
-
+  if(surface == NULL) throw std::runtime_error(SDL_GetError());
   update();
 }
 

@@ -17,6 +17,7 @@ class Sprite {
 
   public:
     Sprite(int x = 0, int y = 0);
+    ~Sprite();
     void update();
     void draw(SDL_Surface *destination);
 };
