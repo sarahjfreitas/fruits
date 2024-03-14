@@ -17,8 +17,10 @@ class Game
     SDL_Surface* windowSurface;
     SDL_Event event;
 
-    const int FPS = 60;
-    const int frameDelay = 1000 / FPS;
+    int const FPS = 60;
+    int const frameDelay = 1000 / FPS;
+    int const windowWidth = 640;
+    int const windowHeight = 480;
 
     Player player;
     vector<Fruit> fruits;

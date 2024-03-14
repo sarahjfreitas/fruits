@@ -12,8 +12,12 @@ class Fruit : public Sprite
       "../assets/banana.jpeg",
       "../assets/orange.jpg"
     };
+    string selectedImagePath;
 
   public:
     Fruit(int x = 0, int y = 0);
+    Fruit& operator=(const Fruit& other);
     void fall();
+
+    static Fruit generateRandom(int windowWidth);
 };

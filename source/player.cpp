@@ -1,4 +1,4 @@
-#include "headers/player.h"
+#include "player.h"
 
 Player::Player() : Sprite(100, 360) {
   setImage(imagePath);

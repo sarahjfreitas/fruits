@@ -1,5 +1,6 @@
 #include <iostream>
-#include "headers/game.h"
+#include "game.h"
+
 
 int main(int argc, char* argv[])
 {

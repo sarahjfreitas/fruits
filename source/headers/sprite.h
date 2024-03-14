@@ -14,10 +14,12 @@ class Sprite {
   protected:
     void setImage(string filename);
     void move(int x, int y);
+    void setPosition(int x, int y);
 
   public:
     Sprite(int x = 0, int y = 0);
-    ~Sprite();
+    Sprite& operator=(const Sprite& other);
     void update();
     void draw(SDL_Surface *destination);
+    bool isOutOfBounds(int windowWidth, int windowHeight);
 };

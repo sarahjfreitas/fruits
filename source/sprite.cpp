@@ -1,4 +1,4 @@
-#include "headers/sprite.h"
+#include "sprite.h"
 #include <iostream>
 
 using std::cout;
@@ -16,10 +16,17 @@ Sprite::Sprite(int x, int y) : x(x), y(y)
   update();
 }
 
-/// @brief Destructor
-Sprite::~Sprite()
+Sprite& Sprite::operator=(const Sprite& other)
 {
-  SDL_FreeSurface(surface);
+  if(this != &other)
+  {
+    x = other.x;
+    y = other.y;
+    rect = other.rect;
+    surface = other.surface;
+  }
+
+  return *this;
 }
 
 /// @brief Draw the sprite
@@ -47,9 +54,21 @@ void Sprite::move(int x, int y)
   update();
 }
 
+void Sprite::setPosition(int x, int y)
+{
+  this->x = x;
+  this->y = y;
+  update();
+}
+
 void Sprite::update()
 {
   rect = surface->clip_rect;
   rect.x = x;
   rect.y = y;
+}
+
+bool Sprite::isOutOfBounds(int windowWidth, int windowHeight)
+{
+  return x < 0 || x > windowWidth || y < 0 || y > windowHeight;
 }
