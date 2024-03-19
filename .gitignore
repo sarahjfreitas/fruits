@@ -1,4 +1,5 @@
 build/
 .vscode/
-assets/
+assets/*.pyxel
 notes
+.DS_Store
