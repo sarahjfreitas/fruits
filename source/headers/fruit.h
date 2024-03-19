@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <vector>
+#include <memory>
 #include "sprite.h"
 
 using std::vector;
@@ -9,15 +10,17 @@ class Fruit : public Sprite
 {
   private:
     vector<string> const imagePaths = {
-      "../assets/banana.jpeg",
-      "../assets/orange.jpg"
+      "../assets/apple.png",
+      "../assets/banana.png",
+      "../assets/orange.png",
+      "../assets/strawberry.png",
     };
     string selectedImagePath;
+    int const static startingHeight = 0;
 
   public:
     Fruit(int x = 0, int y = 0);
-    Fruit& operator=(const Fruit& other);
     void fall();
 
-    static Fruit generateRandom(int windowWidth);
+    std::unique_ptr<Fruit> static generateRandom(const int& windowWidth);
 };

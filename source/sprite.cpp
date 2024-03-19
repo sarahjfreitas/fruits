@@ -9,42 +9,43 @@ using std::endl;
 /// @param y y position
 Sprite::Sprite(int x, int y) : x(x), y(y)
 {
-  surface = SDL_CreateRGBSurface(0, 10, 10, 32, 0, 0, 0, 0);
-  if(surface == NULL) throw std::runtime_error(SDL_GetError());
-
-  SDL_FillRect(surface, NULL, 0x000000);
   update();
-}
-
-Sprite& Sprite::operator=(const Sprite& other)
-{
-  if(this != &other)
-  {
-    x = other.x;
-    y = other.y;
-    rect = other.rect;
-    surface = other.surface;
-  }
-
-  return *this;
 }
 
 /// @brief Draw the sprite
 /// @param destination The surface to be drawn into
-void Sprite::draw(SDL_Surface *destination)
+void Sprite::draw(SDL_Renderer *renderer) const
 {
-  SDL_BlitSurface(surface, NULL, destination, &rect);
+  if(imageFilename.empty())
+  {
+    return;
+  }
+
+  SDL_Texture* texture = IMG_LoadTexture(renderer, imageFilename.c_str());
+  if(texture == nullptr)
+  {
+    cout << "Failed to load texture: " << imageFilename << endl;
+    return;
+  }
+
+  SDL_Rect destRect;
+  destRect.x = x;
+  destRect.y = y;
+  destRect.w = 32;
+  destRect.h = 32;
+
+  SDL_QueryTexture(texture, NULL, NULL, &destRect.w, &destRect.h);
+  SDL_RenderCopy(renderer, texture, NULL, &destRect);
+  SDL_DestroyTexture(texture);
 }
 
 /// @brief Set the sprite background image
 /// @param filename path to the image to be used
 /// @param x x position
 /// @param y y postion
-void Sprite::setImage(string filename)
+void Sprite::setImage(string const& filename)
 {
-  surface = IMG_Load(filename.c_str());
-  if(surface == NULL) throw std::runtime_error(SDL_GetError());
-  update();
+  imageFilename = filename;
 }
 
 void Sprite::move(int x, int y)
@@ -62,13 +63,9 @@ void Sprite::setPosition(int x, int y)
 }
 
 void Sprite::update()
-{
-  rect = surface->clip_rect;
-  rect.x = x;
-  rect.y = y;
-}
+{}
 
-bool Sprite::isOutOfBounds(int windowWidth, int windowHeight)
+bool Sprite::isOutOfBounds(int const& windowWidth, int const& windowHeight) const
 {
   return x < 0 || x > windowWidth || y < 0 || y > windowHeight;
 }

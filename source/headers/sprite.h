@@ -7,19 +7,17 @@ using std::string;
 
 class Sprite {
   private:
-    SDL_Surface *surface;
-    SDL_Rect rect;
     int x, y;
+    string imageFilename;
 
   protected:
-    void setImage(string filename);
+    void setImage(string const& filename);
     void move(int x, int y);
     void setPosition(int x, int y);
 
   public:
     Sprite(int x = 0, int y = 0);
-    Sprite& operator=(const Sprite& other);
     void update();
-    void draw(SDL_Surface *destination);
-    bool isOutOfBounds(int windowWidth, int windowHeight);
+    void draw(SDL_Renderer *renderer) const;
+    bool isOutOfBounds(int const& windowWidth, int const& windowHeight) const;
 };

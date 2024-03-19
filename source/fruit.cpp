@@ -1,25 +1,15 @@
 #include "fruit.h"
 
-Fruit::Fruit(int x, int y) : Sprite(x, y) {
-  int randomIndex = rand() % imagePaths.size();
-  selectedImagePath = imagePaths[randomIndex];
+const int Fruit::startingHeight;
+
+Fruit::Fruit(int x, int y) : Sprite(x, y),  selectedImagePath(imagePaths[rand() % imagePaths.size()]) {
   setImage(selectedImagePath);
-}
-
-Fruit& Fruit::operator=(const Fruit& other) {
-  if (this != &other) {
-    Sprite::operator=(other);
-    selectedImagePath = other.selectedImagePath;
-    setImage(selectedImagePath);
-  }
-
-  return *this;
 }
 
 void Fruit::fall() {
   move(0, 1);
 }
 
-Fruit Fruit::generateRandom(int windowWidth) {
-  return Fruit(rand() % windowWidth, 0);
+std::unique_ptr<Fruit> Fruit::generateRandom(const int& windowWidth) {
+  return std::make_unique<Fruit>(rand() % windowWidth, startingHeight);
 }

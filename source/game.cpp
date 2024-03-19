@@ -1,7 +1,7 @@
 #include "game.h"
 
 /// @brief Initialize libraries and create window
-void Game::init()
+Game::Game()
 {
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
   {
@@ -9,104 +9,101 @@ void Game::init()
   }
 
   window = SDL_CreateWindow("Fruits!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_RESIZABLE);
-  if(window == NULL)
+  if(window == nullptr)
   {
     throw std::runtime_error(SDL_GetError());
   }
 
-  windowSurface = SDL_GetWindowSurface(window);
-}
-
-/// @brief Main game loop
-void Game::run()
-{
-  bool running = true;
-  int currentStep = 0;
-  int speed = 50;
-  int stepToGenerateFruit = 0;
-
-  while(running)
+  renderer = SDL_CreateRenderer(window, -1, 0);
+  if(renderer == nullptr)
   {
-    currentStep++;
-    if(currentStep > speed){
-      currentStep = 0;
-      stepToGenerateFruit = rand() % speed;
-    }
-
-    if(currentStep == stepToGenerateFruit && fruits.size() < 10)
-      fruits.push_back(Fruit::generateRandom(windowWidth));
-
-
-    Uint32 frameStart = SDL_GetTicks();
-
-    //remove fruits that are out of the screen
-    fruits.erase(std::remove_if(fruits.begin(), fruits.end(), [this](Fruit& fruit) { return fruit.isOutOfBounds(windowWidth, windowHeight); }), fruits.end());
-
-    if(currentStep == rand() % speed && fruits.size() < 10)
-      std::generate_n(std::back_inserter(fruits), 1, [this]() { return Fruit::generateRandom(windowWidth); });
-
-    while (SDL_PollEvent(&event))
-    {
-      switch (event.type)
-      {
-        case SDL_QUIT:
-          running = false;
-          break;
-        case SDL_KEYDOWN:
-          handleKeyInput();
-          break;
-      }
-    }
-
-    draw();
-    limitFrameRate(frameStart);
+    throw std::runtime_error(SDL_GetError());
   }
 }
 
+/// @brief Destructor that clears remaining pointers
+Game::~Game() {
+  SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
+  SDL_Quit();
+}
+
 /// @brief Handle user input
-void Game::handleKeyInput()
+void Game::handleEvents()
 {
-  //TODO: make sure that player can only walk once per frame
-  switch (event.key.keysym.sym)
+  while (SDL_PollEvent(&event))
   {
-    case SDLK_RIGHT:
-      player.walkRight();
-      break;
-    case SDLK_LEFT:
-      player.walkLeft();
-      break;
+    switch (event.type)
+    {
+      case SDL_QUIT:
+        running = false;
+        break;
+      case SDL_KEYDOWN:
+        //TODO: make sure that player can only walk once per frame
+        switch (event.key.keysym.sym)
+        {
+          case SDLK_RIGHT:
+            player.walkRight();
+            break;
+          case SDLK_LEFT:
+            player.walkLeft();
+            break;
+        }
+        break;
+    }
+  }
+}
+
+/// @brief Update game state on each frame
+void Game::update()
+{
+  Uint32 frameStart = SDL_GetTicks();
+
+  currentStep++;
+  if(currentStep > speed){
+    currentStep = 0;
+    stepToGenerateFruit = rand() % speed;
+  }
+
+  if(currentStep == stepToGenerateFruit && fruits.size() < 10)
+    fruits.push_back(Fruit::generateRandom(windowWidth));
+
+  //remove fruits that are out of the screen
+  fruits.erase(std::remove_if(fruits.begin(), fruits.end(), [this](std::unique_ptr<Fruit>& fruit) { return fruit->isOutOfBounds(windowWidth, windowHeight); }), fruits.end());
+
+  if(currentStep == rand() % speed && fruits.size() < 10)
+    std::generate_n(std::back_inserter(fruits), 1, [this]() { return Fruit::generateRandom(windowWidth); });
+
+  limitFrameRate(frameStart);
+
+  player.update();
+  for(auto& fruit : fruits)
+  {
+    fruit->fall();
   }
 }
 
 /// @brief Draw the window surface
-void Game::draw()
+void Game::render() const
 {
-  SDL_FillRect(windowSurface, NULL, 0x000000); // clear the window
+  SDL_RenderClear(renderer);
 
-  player.draw(windowSurface);
-  for( auto& fruit : fruits)
+  player.draw(renderer);
+  for(auto& fruit : fruits)
   {
-    fruit.fall();
-    fruit.draw(windowSurface);
+    fruit->draw(renderer);
   }
 
-  SDL_UpdateWindowSurface(window);
+  SDL_RenderPresent(renderer);
 }
 
 /// @brief Limit the frame rate acording to the FPS configuration
 /// @param frameStart Time that current frame started
-void Game::limitFrameRate(Uint32 frameStart)
+void Game::limitFrameRate(Uint32 const& frameStart)
 {
   int frameDuration = SDL_GetTicks() - frameStart;
   if(frameDelay > frameDuration)
   {
     SDL_Delay(frameDelay - frameDuration);
   }
-}
-
-/// @brief Destructor that clears remaining pointers
-Game::~Game() {
-  SDL_FreeSurface(windowSurface);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
 }

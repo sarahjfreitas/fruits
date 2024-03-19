@@ -7,8 +7,13 @@ int main(int argc, char* argv[])
   try
   {
     Game game;
-    game.init();
-    game.run();
+
+    while (game.isRunning())
+    {
+      game.handleEvents();
+      game.update();
+      game.render();
+    }
   }
   catch(const std::runtime_error& e)
   {
