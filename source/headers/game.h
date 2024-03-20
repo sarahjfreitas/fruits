@@ -1,8 +1,9 @@
 #pragma once
-#include <SDL.h>
 #include <vector>
 #include <algorithm>
 #include <memory>
+#include <SDL.h>
+#include <GL/glew.h>
 
 #include "sprite.h"
 #include "player.h"
@@ -13,15 +14,24 @@ using std::vector;
 
 class Game
 {
+  public:
+    Game();
+    ~Game();
+
+    void handleEvents();
+    void update();
+    void render() const;
+    bool isRunning() const { return running; };
+
+
   private:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    SDL_Event event;
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
 
     int const FPS = 60;
     int const frameDelay = 1000 / FPS;
-    int const windowWidth = 640;
-    int const windowHeight = 480;
+    int const windowWidth = 1920;
+    int const windowHeight = 1080;
 
     bool running = true;
 
@@ -35,13 +45,6 @@ class Game
     vector<std::unique_ptr<Fruit>> fruits;
 
     void limitFrameRate(Uint32 const& frameStart);
-
-  public:
-    Game();
-    ~Game();
-
-    void handleEvents();
-    void update();
-    void render() const;
-    bool isRunning() const { return running; };
+    void initSdl(string windowTitle);
+    void initOpenGl();
 };

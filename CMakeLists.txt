@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(SDL2 REQUIRED COMPONENTS SDL2)
 find_package(SDL2_image REQUIRED)
+find_package(glfw3 REQUIRED)
+find_package(GLEW REQUIRED)
 
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/source)
 
@@ -24,3 +26,4 @@ add_executable(Fruits
 
 target_link_libraries(Fruits PRIVATE SDL2::SDL2)
 target_link_libraries(Fruits PRIVATE SDL2_image::SDL2_image)
+target_link_libraries(Fruits PRIVATE glfw GLEW::GLEW)

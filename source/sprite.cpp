@@ -34,7 +34,7 @@ void Sprite::draw(SDL_Renderer *renderer) const
   destRect.w = 32;
   destRect.h = 32;
 
-  SDL_QueryTexture(texture, NULL, NULL, &destRect.w, &destRect.h);
+  SDL_QueryTexture(texture, nullptr, nullptr, &destRect.w, &destRect.h);
   SDL_RenderCopy(renderer, texture, NULL, &destRect);
   SDL_DestroyTexture(texture);
 }

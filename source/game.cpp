@@ -3,22 +3,8 @@
 /// @brief Initialize libraries and create window
 Game::Game()
 {
-  if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-  {
-    throw std::runtime_error(SDL_GetError());
-  }
-
-  window = SDL_CreateWindow("Fruits!", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_RESIZABLE);
-  if(window == nullptr)
-  {
-    throw std::runtime_error(SDL_GetError());
-  }
-
-  renderer = SDL_CreateRenderer(window, -1, 0);
-  if(renderer == nullptr)
-  {
-    throw std::runtime_error(SDL_GetError());
-  }
+  initSdl("Fruit Catcher");
+  //initOpenGl(); TODO: change sdl image to open gl
 }
 
 /// @brief Destructor that clears remaining pointers
@@ -31,6 +17,7 @@ Game::~Game() {
 /// @brief Handle user input
 void Game::handleEvents()
 {
+  SDL_Event event;
   while (SDL_PollEvent(&event))
   {
     switch (event.type)
@@ -95,6 +82,8 @@ void Game::render() const
   }
 
   SDL_RenderPresent(renderer);
+
+  glClearDepth(1.0);
 }
 
 /// @brief Limit the frame rate acording to the FPS configuration
@@ -105,5 +94,47 @@ void Game::limitFrameRate(Uint32 const& frameStart)
   if(frameDelay > frameDuration)
   {
     SDL_Delay(frameDelay - frameDuration);
+  }
+}
+
+/// @brief Initialize SDL and create window
+void Game::initSdl(string windowTitle)
+{
+  if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+  {
+    throw std::runtime_error(SDL_GetError());
+  }
+
+  window = SDL_CreateWindow(
+    windowTitle.c_str(),
+    SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+    windowWidth, windowHeight, SDL_WINDOW_RESIZABLE
+  );
+
+  if(window == nullptr)
+  {
+    throw std::runtime_error(SDL_GetError());
+  }
+
+  renderer = SDL_CreateRenderer(window, -1, 0);
+  if(renderer == nullptr)
+  {
+    throw std::runtime_error(SDL_GetError());
+  }
+}
+
+/// @brief Initialize OpenGL
+void Game::initOpenGl()
+{
+  SDL_GLContext glContext = SDL_GL_CreateContext(window);
+  if(glContext == nullptr)
+  {
+    throw std::runtime_error(SDL_GetError());
+  }
+
+  GLenum glewError = glewInit();
+  if (glewError != GLEW_OK)
+  {
+    throw std::runtime_error(reinterpret_cast<const char*>(glewGetErrorString(glewError)));
   }
 }
