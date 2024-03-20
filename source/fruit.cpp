@@ -11,5 +11,5 @@ void Fruit::fall() {
 }
 
 std::unique_ptr<Fruit> Fruit::generateRandom(const int& windowWidth) {
-  return std::make_unique<Fruit>(rand() % windowWidth, startingHeight);
+  return std::make_unique<Fruit>(rand() % (windowWidth - 32), startingHeight);
 }
