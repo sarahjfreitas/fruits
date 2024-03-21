@@ -34,3 +34,6 @@ add_executable(Fruits
 target_link_libraries(Fruits PRIVATE SDL2::SDL2 SDL2::SDL2main)
 target_link_libraries(Fruits PRIVATE SDL2_image::SDL2_image)
 #target_link_libraries(Fruits PRIVATE glfw GLEW::GLEW)
+
+
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})

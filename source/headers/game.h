@@ -32,8 +32,8 @@ class Game
 
     int const FPS = 60;
     int const frameDelay = 1000 / FPS;
-    int const windowWidth = 1920;
-    int const windowHeight = 1080;
+    int const windowWidth = 1600;
+    int const windowHeight = 1024;
 
     bool running = true;
 

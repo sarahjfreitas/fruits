@@ -10,10 +10,10 @@ class Fruit : public Sprite
 {
   private:
     vector<string> const imagePaths = {
-      "../assets/apple.png",
-      "../assets/banana.png",
-      "../assets/orange.png",
-      "../assets/strawberry.png",
+      "assets/apple.png",
+      "assets/banana.png",
+      "assets/orange.png",
+      "assets/strawberry.png",
     };
     string selectedImagePath;
     int const static startingHeight = 0;
