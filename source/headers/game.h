@@ -1,9 +1,11 @@
 #pragma once
 #include <vector>
 #include <algorithm>
+#include <iterator>
 #include <memory>
 #include <SDL.h>
-#include <GL/glew.h>
+#include <stdexcept>
+//#include <GL/glew.h>
 
 #include "sprite.h"
 #include "player.h"

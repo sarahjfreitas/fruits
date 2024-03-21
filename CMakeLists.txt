@@ -31,6 +31,6 @@ add_executable(Fruits
   source/fruit.cpp
 )
 
-target_link_libraries(Fruits PRIVATE SDL2::SDL2)
+target_link_libraries(Fruits PRIVATE SDL2::SDL2 SDL2::SDL2main)
 target_link_libraries(Fruits PRIVATE SDL2_image::SDL2_image)
 #target_link_libraries(Fruits PRIVATE glfw GLEW::GLEW)

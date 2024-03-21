@@ -82,8 +82,6 @@ void Game::render() const
   }
 
   SDL_RenderPresent(renderer);
-
-  glClearDepth(1.0);
 }
 
 /// @brief Limit the frame rate acording to the FPS configuration
@@ -126,7 +124,7 @@ void Game::initSdl(string windowTitle)
 /// @brief Initialize OpenGL
 void Game::initOpenGl()
 {
-  SDL_GLContext glContext = SDL_GL_CreateContext(window);
+  /*SDL_GLContext glContext = SDL_GL_CreateContext(window);
   if(glContext == nullptr)
   {
     throw std::runtime_error(SDL_GetError());
@@ -136,5 +134,5 @@ void Game::initOpenGl()
   if (glewError != GLEW_OK)
   {
     throw std::runtime_error(reinterpret_cast<const char*>(glewGetErrorString(glewError)));
-  }
+  }*/
 }
