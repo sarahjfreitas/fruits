@@ -10,6 +10,7 @@
 #include "sprite.h"
 #include "player.h"
 #include "fruit.h"
+#include "background.h"
 
 using std::vector;
 
@@ -39,11 +40,12 @@ class Game
 
     // temp
     int currentStep = 0;
-    int speed = 50;
+    int speed = 200;
     int stepToGenerateFruit = 0;
 
 
     Player player;
+    Background background;
     vector<std::unique_ptr<Fruit>> fruits;
 
     void limitFrameRate(Uint32 const& frameStart);

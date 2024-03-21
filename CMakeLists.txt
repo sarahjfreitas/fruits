@@ -29,6 +29,7 @@ add_executable(Fruits
   source/sprite.cpp
   source/player.cpp
   source/fruit.cpp
+  source/background.cpp
 )
 
 target_link_libraries(Fruits PRIVATE SDL2::SDL2 SDL2::SDL2main)

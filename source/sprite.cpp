@@ -7,7 +7,7 @@ using std::endl;
 /// @brief Construct a new Sprite:: Sprite object
 /// @param x x position
 /// @param y y position
-Sprite::Sprite(int x, int y) : x(x), y(y)
+Sprite::Sprite(int x, int y, int w, int h) : x(x), y(y), w(w), h(h)
 {
   update();
 }
@@ -16,26 +16,38 @@ Sprite::Sprite(int x, int y) : x(x), y(y)
 /// @param destination The surface to be drawn into
 void Sprite::draw(SDL_Renderer *renderer) const
 {
-  if(imageFilename.empty())
+  genericDraw(renderer, false);
+}
+
+void Sprite::genericDraw(SDL_Renderer* renderer, bool fullScreen) const
+{
+  if (imageFilename.empty())
   {
     return;
   }
 
   SDL_Texture* texture = IMG_LoadTexture(renderer, imageFilename.c_str());
-  if(texture == nullptr)
+  if (texture == nullptr)
   {
     cout << "Failed to load texture: " << imageFilename << endl;
     return;
   }
 
-  SDL_Rect destRect;
-  destRect.x = x;
-  destRect.y = y;
-  destRect.w = 32;
-  destRect.h = 32;
+  SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr);
 
-  SDL_QueryTexture(texture, nullptr, nullptr, &destRect.w, &destRect.h);
-  SDL_RenderCopy(renderer, texture, NULL, &destRect);
+  if (fullScreen) {
+    SDL_RenderCopy(renderer, texture, nullptr, nullptr);
+  }
+  else {
+    SDL_Rect destRect;
+    destRect.x = x;
+    destRect.y = y;
+    destRect.w = 64;
+    destRect.h = 64;
+
+    SDL_RenderCopy(renderer, texture, nullptr, &destRect);
+  }
+
   SDL_DestroyTexture(texture);
 }
 
