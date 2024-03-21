@@ -33,18 +33,19 @@ void Sprite::genericDraw(SDL_Renderer* renderer, bool fullScreen) const
     return;
   }
 
-  SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr);
 
   if (fullScreen) {
+    SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr);
     SDL_RenderCopy(renderer, texture, nullptr, nullptr);
   }
   else {
     SDL_Rect destRect;
     destRect.x = x;
     destRect.y = y;
-    destRect.w = 64;
-    destRect.h = 64;
+    destRect.w = w;
+    destRect.h = h;
 
+    SDL_QueryTexture(texture, nullptr, nullptr, &destRect.w, &destRect.h);
     SDL_RenderCopy(renderer, texture, nullptr, &destRect);
   }
 

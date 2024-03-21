@@ -13,7 +13,7 @@ endif()
 
 find_package(SDL2 REQUIRED COMPONENTS)
 find_package(SDL2_image REQUIRED)
-#find_package(glfw3 REQUIRED)
+#find_package(glfw3 REQUIRED) 
 #find_package(GLEW REQUIRED)
 
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/source)

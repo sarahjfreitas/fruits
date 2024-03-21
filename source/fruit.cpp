@@ -2,7 +2,7 @@
 
 const int Fruit::startingHeight;
 
-Fruit::Fruit(int x, int y) : Sprite(x, y),  selectedImagePath(imagePaths[rand() % imagePaths.size()]) {
+Fruit::Fruit(int x, int y) : Sprite(x, y, 200, 200),  selectedImagePath(imagePaths[rand() % imagePaths.size()]) {
   setImage(selectedImagePath);
 }
 

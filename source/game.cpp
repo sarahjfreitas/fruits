@@ -76,7 +76,7 @@ void Game::render() const
   SDL_RenderClear(renderer);
 
   background.draw(renderer);
-  //player.draw(renderer);
+  player.draw(renderer);
   for(auto& fruit : fruits)
   {
     fruit->draw(renderer);

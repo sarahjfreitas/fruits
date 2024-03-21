@@ -4,7 +4,7 @@
 class Player : public Sprite
 {
   private:
-    string const imagePath = "../assets/player.png";
+    string const imagePath = "assets/player.png";
 
   public:
     Player();

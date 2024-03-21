@@ -1,6 +1,6 @@
 #include "player.h"
 
-Player::Player() : Sprite(100, 360) {
+Player::Player() : Sprite(300, 800, 300, 600) {
   setImage(imagePath);
 }
 
