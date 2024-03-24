@@ -1,7 +1,7 @@
 #include "player.h"
 #include "config.h"
 
-Player::Player() : Sprite(300, floorHeight, 128, 192) {
+Player::Player() : Sprite(300, floorHeight - playerHeigh, 128, playerHeigh) {
   setImage(imagePath);
 
   int i = 1;

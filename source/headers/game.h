@@ -41,6 +41,7 @@ class Game
     Player player;
     Background background;
     vector<std::unique_ptr<Fruit>> fruits;
+    vector<std::unique_ptr<Fruit>> fruitsOnTheFloor;
 
     void limitFrameRate(Uint32 const& frameStart);
     void initSdl(string windowTitle);

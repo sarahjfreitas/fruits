@@ -17,6 +17,7 @@ class Player : public Sprite
     int hp = playerMaxHp;
     int score = 0;
     vector<Hp> lifes;
+    inline static constexpr int playerHeigh = 192;
 
   public:
     Player();

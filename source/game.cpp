@@ -61,6 +61,7 @@ void Game::update()
     if (fruit->isOutOfBounds())
     {
       player.takeDamage();
+      fruitsOnTheFloor.push_back(std::move(fruit));
       return true;
     }
     if (checkColision(player.collider, fruit->collider))
@@ -100,6 +101,10 @@ void Game::render() const
   {
     fruit->draw(renderer);
   }
+  for (auto& fruit : fruitsOnTheFloor)
+  {
+    fruit->draw(renderer);
+  }
 
   SDL_RenderPresent(renderer);
 }
@@ -126,7 +131,7 @@ void Game::initSdl(string windowTitle)
   window = SDL_CreateWindow(
     windowTitle.c_str(),
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-    windowWidth, windowHeight, SDL_WINDOW_RESIZABLE
+    windowWidth, windowHeight, SDL_WINDOW_FULLSCREEN_DESKTOP
   );
 
   if(window == nullptr)
@@ -139,6 +144,8 @@ void Game::initSdl(string windowTitle)
   {
     throw std::runtime_error(SDL_GetError());
   }
+
+  SDL_RenderSetLogicalSize(renderer, windowWidth, windowHeight);
 }
 
 /// @brief Initialize OpenGL
