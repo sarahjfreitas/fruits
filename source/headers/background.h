@@ -8,5 +8,5 @@ private:
 
 public:
   Background();
-  void draw(SDL_Renderer* renderer) const;
+  void draw(SDL_Renderer* renderer) const override;
 };

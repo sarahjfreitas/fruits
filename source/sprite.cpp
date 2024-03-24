@@ -7,8 +7,9 @@ using std::endl;
 /// @brief Construct a new Sprite:: Sprite object
 /// @param x x position
 /// @param y y position
-Sprite::Sprite(int x, int y, int w, int h) : x(x), y(y), w(w), h(h)
+Sprite::Sprite(int x, int y, int w, int h) : w(w), h(h)
 {
+  setPosition(x, y);
   update();
 }
 
@@ -33,20 +34,13 @@ void Sprite::genericDraw(SDL_Renderer* renderer, bool fullScreen) const
     return;
   }
 
-
   if (fullScreen) {
     SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr);
     SDL_RenderCopy(renderer, texture, nullptr, nullptr);
   }
   else {
-    SDL_Rect destRect;
-    destRect.x = x;
-    destRect.y = y;
-    destRect.w = w;
-    destRect.h = h;
-
-    SDL_QueryTexture(texture, nullptr, nullptr, &destRect.w, &destRect.h);
-    SDL_RenderCopy(renderer, texture, nullptr, &destRect);
+    SDL_QueryTexture(texture, nullptr, nullptr, nullptr, nullptr);
+    SDL_RenderCopy(renderer, texture, nullptr, &collider);
   }
 
   SDL_DestroyTexture(texture);
@@ -63,22 +57,61 @@ void Sprite::setImage(string const& filename)
 
 void Sprite::move(int x, int y)
 {
-  this->x += x;
-  this->y += y;
+  position.x += x;
+  position.y += y;
   update();
 }
 
 void Sprite::setPosition(int x, int y)
 {
-  this->x = x;
-  this->y = y;
+  position.x = x;
+  position.y = y;
   update();
 }
 
 void Sprite::update()
-{}
+{
+  collider.x = position.x;
+  collider.y = position.y;
+  collider.w = w;
+  collider.h = h;
+}
 
 bool Sprite::isOutOfBounds(int const& windowWidth, int const& windowHeight) const
 {
-  return x < 0 || x > windowWidth || y < 0 || y > windowHeight;
+  return position.x < 0 || position.x > windowWidth || position.y < 0 || position.y > windowHeight;
 }
+
+
+bool checkColision(SDL_Rect const& a, SDL_Rect const& b)
+{
+  // a coords
+  int aLeft = a.x;
+  int aRight = a.x + a.w;
+  int aTop = a.y;
+  int aBottom = a.y + a.h;
+
+  // b coords
+  int bLeft = b.x;
+  int bRight = b.x + b.w;
+  int bTop = b.y;
+  int bBottom = b.y + b.h;
+
+  bool ARightOfB = aLeft > bRight;
+  bool ALeftOfB = aRight < bLeft;
+  bool AAboveB = aBottom < bTop;
+  bool ABelowB = aTop > bBottom;
+  
+  if (ARightOfB || ALeftOfB || AAboveB || ABelowB)
+  {
+    return false;
+  }
+
+  return true;
+}
+
+void Sprite::setSize(int w, int h)
+{
+  this->w = w;
+  this->h = h;
+};

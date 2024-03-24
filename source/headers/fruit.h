@@ -16,11 +16,11 @@ class Fruit : public Sprite
       "assets/strawberry.png",
     };
     string selectedImagePath;
-    int const static startingHeight = 0;
+    int const static startingHeight = 200;
 
   public:
     Fruit(int x = 0, int y = 0);
-    void fall();
+    void fall(int speed = 1);
 
     std::unique_ptr<Fruit> static generateRandom(const int& windowWidth);
 };

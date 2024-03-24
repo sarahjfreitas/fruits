@@ -26,23 +26,24 @@ class Game
     void render() const;
     bool isRunning() const { return running; };
 
-
   private:
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
 
+    //TODO: user configured FPS
     int const FPS = 60;
     int const frameDelay = 1000 / FPS;
+
+    //TODO: user configured window size and full screen
     int const windowWidth = 1600;
     int const windowHeight = 1024;
 
     bool running = true;
 
-    // temp
+    // TODO: temp vars, move this
     int currentStep = 0;
     int speed = 200;
     int stepToGenerateFruit = 0;
-
 
     Player player;
     Background background;

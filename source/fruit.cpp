@@ -1,13 +1,11 @@
 #include "fruit.h"
 
-const int Fruit::startingHeight;
-
-Fruit::Fruit(int x, int y) : Sprite(x, y, 200, 200),  selectedImagePath(imagePaths[rand() % imagePaths.size()]) {
+Fruit::Fruit(int x, int y) : Sprite(x, y, 32, 32),  selectedImagePath(imagePaths[rand() % imagePaths.size()]) {
   setImage(selectedImagePath);
 }
 
-void Fruit::fall() {
-  move(0, 1);
+void Fruit::fall(int speed) {
+  move(0, speed);
 }
 
 std::unique_ptr<Fruit> Fruit::generateRandom(const int& windowWidth) {
