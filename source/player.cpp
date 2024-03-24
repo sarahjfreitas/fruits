@@ -1,22 +1,21 @@
 #include "player.h"
+#include "config.h"
 
-Player::Player() : Sprite(300, 670, 128, 192) {
+Player::Player() : Sprite(300, floorHeight, 128, 192) {
   setImage(imagePath);
-  for (int i = 1; i <= hp; i++)
-  {
-    lifes.push_back(Hp(i));
-  }
+
+  int i = 1;
+  generate_n(back_inserter(lifes), hp, [&i]() { return Hp(i++); });
 }
 
 void Player::walkRight()
 {
-
-  move(10, 0);
+  move(playerWalkSpeed, 0);
 }
 
 void Player::walkLeft()
 {
-  move(-10,0);
+  move(playerWalkSpeed * -1, 0);
 }
 
 void Player::takeDamage()

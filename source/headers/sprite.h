@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_Image.h>
 #include <string>
+#include "config.h"
 
 using std::string;
 
@@ -22,7 +23,7 @@ class Sprite {
     Sprite(int x = 0, int y = 0, int w = 0, int h = 0);
     void update();
     virtual void draw(SDL_Renderer *renderer) const;
-    bool isOutOfBounds(int const& windowWidth, int const& windowHeight) const;
+    bool isOutOfBounds() const;
     SDL_Rect collider;
 };
 

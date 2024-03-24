@@ -14,7 +14,7 @@ class Player : public Sprite
 {
   private:
     string const imagePath = "assets/player.png";
-    int hp = 3;
+    int hp = playerMaxHp;
     int score = 0;
     vector<Hp> lifes;
 

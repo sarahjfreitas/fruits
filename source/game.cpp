@@ -53,12 +53,12 @@ void Game::update()
   }
 
   if(currentStep == stepToGenerateFruit && fruits.size() < 20)
-    fruits.push_back(Fruit::generateRandom(windowWidth));
+    fruits.push_back(Fruit::generateRandom());
 
   //remove fruits that are out of the screen
 
   fruits.erase(std::remove_if(fruits.begin(), fruits.end(), [this](std::unique_ptr<Fruit>& fruit) { 
-    if (fruit->isOutOfBounds(windowWidth, windowHeight))
+    if (fruit->isOutOfBounds())
     {
       player.takeDamage();
       return true;
@@ -78,7 +78,7 @@ void Game::update()
   }
 
   if(currentStep == rand() % speed && fruits.size() < 10)
-    std::generate_n(std::back_inserter(fruits), 1, [this]() { return Fruit::generateRandom(windowWidth); });
+    std::generate_n(std::back_inserter(fruits), 1, [this]() { return Fruit::generateRandom(); });
 
   limitFrameRate(frameStart);
 

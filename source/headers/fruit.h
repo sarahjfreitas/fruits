@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include "sprite.h"
+#include "config.h"
 
 using std::vector;
 
@@ -22,5 +23,5 @@ class Fruit : public Sprite
     Fruit(int x = 0, int y = 0);
     void fall(int speed = 1);
 
-    std::unique_ptr<Fruit> static generateRandom(const int& windowWidth);
+    std::unique_ptr<Fruit> static generateRandom();
 };

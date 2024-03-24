@@ -11,6 +11,7 @@
 #include "player.h"
 #include "fruit.h"
 #include "background.h"
+#include "config.h"
 
 using std::vector;
 
@@ -29,14 +30,6 @@ class Game
   private:
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
-
-    //TODO: user configured FPS
-    int const FPS = 60;
-    int const frameDelay = 1000 / FPS;
-
-    //TODO: user configured window size and full screen
-    int const windowWidth = 1600;
-    int const windowHeight = 1024;
 
     bool running = true;
 

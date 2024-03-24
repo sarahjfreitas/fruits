@@ -8,6 +8,6 @@ void Fruit::fall(int speed) {
   move(0, speed);
 }
 
-std::unique_ptr<Fruit> Fruit::generateRandom(const int& windowWidth) {
+std::unique_ptr<Fruit> Fruit::generateRandom() {
   return std::make_unique<Fruit>(rand() % (windowWidth - 32), startingHeight);
 }

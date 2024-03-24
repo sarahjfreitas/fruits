@@ -77,7 +77,7 @@ void Sprite::update()
   collider.h = h;
 }
 
-bool Sprite::isOutOfBounds(int const& windowWidth, int const& windowHeight) const
+bool Sprite::isOutOfBounds() const
 {
   return position.x < 0 || position.x > windowWidth || position.y < 0 || position.y > windowHeight;
 }
