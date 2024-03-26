@@ -3,8 +3,10 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
-#include <SDL.h>
 #include <stdexcept>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 //#include <GL/glew.h>
 
 #include "sprite.h"
@@ -14,6 +16,7 @@
 #include "config.h"
 
 using std::vector;
+using std::runtime_error;
 
 
 class Game

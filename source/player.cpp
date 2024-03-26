@@ -11,11 +11,19 @@ Player::Player() : Sprite(300, floorHeight - playerHeigh, 128, playerHeigh) {
 void Player::walkRight()
 {
   move(playerWalkSpeed, 0);
+  if (isOutOfBounds())
+  {
+    move(playerWalkSpeed * -1, 0);
+  }
 }
 
 void Player::walkLeft()
 {
   move(playerWalkSpeed * -1, 0);
+  if (isOutOfBounds())
+  {
+    move(playerWalkSpeed, 0);
+  }
 }
 
 void Player::takeDamage()
@@ -33,5 +41,6 @@ void Player::draw(SDL_Renderer* renderer) const
   {
     life.draw(renderer);
   }
+  score.draw(renderer);
   Sprite::draw(renderer);
 }

@@ -11,6 +11,7 @@ Game::Game()
 Game::~Game() {
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
+  TTF_Quit();
   SDL_Quit();
 }
 
@@ -66,7 +67,7 @@ void Game::update()
     }
     if (checkColision(player.collider, fruit->collider))
     {
-      player.increaseScore();
+      player.score.increaseScore();
       return true;
     }
 
@@ -125,27 +126,33 @@ void Game::initSdl(string windowTitle)
 {
   if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
   {
-    throw std::runtime_error(SDL_GetError());
+    throw runtime_error(SDL_GetError());
   }
 
   window = SDL_CreateWindow(
     windowTitle.c_str(),
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-    windowWidth, windowHeight, SDL_WINDOW_FULLSCREEN_DESKTOP
+    windowWidth, windowHeight, SDL_WINDOW_RESIZABLE
   );
 
   if(window == nullptr)
   {
-    throw std::runtime_error(SDL_GetError());
+    throw runtime_error(SDL_GetError());
   }
 
   renderer = SDL_CreateRenderer(window, -1, 0);
   if(renderer == nullptr)
   {
-    throw std::runtime_error(SDL_GetError());
+    throw runtime_error(SDL_GetError());
   }
 
   SDL_RenderSetLogicalSize(renderer, windowWidth, windowHeight);
+
+  //Initialize SDL_ttf
+  if (TTF_Init() == -1)
+  {
+    throw runtime_error(TTF_GetError());
+  }
 }
 
 /// @brief Initialize OpenGL

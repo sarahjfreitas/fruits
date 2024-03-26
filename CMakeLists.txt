@@ -13,6 +13,7 @@ endif()
 
 find_package(SDL2 REQUIRED COMPONENTS)
 find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 #find_package(glfw3 REQUIRED) 
 #find_package(GLEW REQUIRED)
 
@@ -31,11 +32,14 @@ add_executable(Fruits
   source/fruit.cpp
   source/background.cpp
   source/hp.cpp
+  source/score.cpp
 )
 
 target_link_libraries(Fruits PRIVATE SDL2::SDL2 SDL2::SDL2main)
 target_link_libraries(Fruits PRIVATE SDL2_image::SDL2_image)
+target_link_libraries(Fruits PRIVATE SDL2_ttf::SDL2_ttf)
 #target_link_libraries(Fruits PRIVATE glfw GLEW::GLEW)
 
 
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY fonts DESTINATION ${CMAKE_BINARY_DIR})

@@ -5,6 +5,7 @@
 #include "sprite.h"
 #include "fruit.h"
 #include "hp.h"
+#include "score.h"
 
 using std::vector;
 using std::generate_n;
@@ -15,7 +16,6 @@ class Player : public Sprite
   private:
     string const imagePath = "assets/player.png";
     int hp = playerMaxHp;
-    int score = 0;
     vector<Hp> lifes;
     inline static constexpr int playerHeigh = 192;
 
@@ -25,7 +25,6 @@ class Player : public Sprite
     void walkLeft();
     void takeDamage();
     bool isAlive() const { return hp > 0; };
-    void increaseScore() { score++; };
-    int getScore() const { return score; };
     void draw(SDL_Renderer* renderer) const override;
+    Score score;
 };
